@@ -98,13 +98,18 @@ function App() {
             }
         } else {
             const object = {name: newName, number: newNumber};
-            contactService.create(object).then(value => {
-                setPersons(persons.concat(value));
-                setNewName("");
-                setNewNumber("");
-                setGoodMessage(`Added ${value.name}`)
-                setTimeout(() => setGoodMessage(null), 3000)
-            })
+            contactService.create(object)
+                .then(value => {
+                    setPersons(persons.concat(value));
+                    setNewName("");
+                    setNewNumber("");
+                    setGoodMessage(`Added ${value.name}`)
+                    setTimeout(() => setGoodMessage(null), 3000)
+                })
+                .catch(error => {
+                    setErrorMessage(error.response.data.error)
+                    setTimeout(() => setErrorMessage(null), 3000)
+                })
         }
     };
     const onContactDelete = (user) => {
